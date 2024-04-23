@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Room } from './model/room.model';
 import { RoomRepository } from './room.repository';
 import { CounterService } from '../counter/counter.service';
-import { CollectionName, CounterName } from '../constants/constants';
+import { CounterName } from '../constants/constants';
 import { RoomQuery } from './query/room.query';
 import { RoomDto } from './dto/room.dto';
 

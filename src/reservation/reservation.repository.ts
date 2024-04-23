@@ -26,7 +26,11 @@ export class ReservationRepository {
 	}
 
 	async update(id: number, data: Partial<Reservation>): Promise<Reservation> {
-		return this.scheduleModel.findOneAndUpdate({ id }, data, { new: true });
+		return this.scheduleModel.findOneAndUpdate(
+			{ id },
+			{ ...data, $unset: { deleted: 1 } },
+			{ new: true },
+		);
 	}
 
 	async create(data: Partial<Reservation>): Promise<Reservation> {

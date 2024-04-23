@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { CollectionName } from 'src/constants/constants';
+import { CollectionName } from '../constants/constants';
 
 @Schema({ collection: CollectionName.COUNTERS, versionKey: false })
 export class Counter extends Document {

@@ -1,6 +1,6 @@
 import { IsNumber, IsOptional, IsString } from 'class-validator';
 import { Transform } from 'class-transformer';
-import { DEFAULT_COUNT_LIMIT, DEFAULT_OFFSET } from 'src/constants/constants';
+import { DEFAULT_COUNT_LIMIT, DEFAULT_OFFSET } from '../../constants/constants';
 
 export class RoomQuery {
 	@Transform(({ value }) => {
