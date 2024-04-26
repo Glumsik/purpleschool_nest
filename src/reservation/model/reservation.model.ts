@@ -5,9 +5,6 @@ import { CollectionName } from '../../constants/constants';
 @Schema({ collection: CollectionName.SCHEDULE, timestamps: true, versionKey: false })
 export class Reservation extends Document {
 	@Prop()
-	id: number;
-
-	@Prop()
 	startDate: Date;
 
 	@Prop()

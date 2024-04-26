@@ -10,8 +10,8 @@ export class ReservationRepository {
 		private readonly scheduleModel: Model<Reservation>,
 	) {}
 
-	async getById(id: number): Promise<Reservation> {
-		return this.scheduleModel.findOne({ id, deleted: { $exists: false } });
+	async getById(_id: string): Promise<Reservation | null> {
+		return this.scheduleModel.findById({ _id, deleted: { $exists: false } });
 	}
 
 	async checkReservationRoom(data: Partial<Reservation>): Promise<Reservation | null> {
@@ -25,9 +25,9 @@ export class ReservationRepository {
 		});
 	}
 
-	async update(id: number, data: Partial<Reservation>): Promise<Reservation> {
+	async update(_id: string, data: Partial<Reservation>): Promise<Reservation | null> {
 		return this.scheduleModel.findOneAndUpdate(
-			{ id },
+			{ _id },
 			{ ...data, $unset: { deleted: 1 } },
 			{ new: true },
 		);
@@ -38,7 +38,7 @@ export class ReservationRepository {
 		return schedule.save();
 	}
 
-	async delete(id: number) {
-		return this.scheduleModel.findOneAndUpdate({ id }, { deleted: true }, { new: true });
+	async delete(_id: string): Promise<Reservation | null> {
+		return this.scheduleModel.findOneAndUpdate({ _id }, { deleted: true }, { new: true });
 	}
 }

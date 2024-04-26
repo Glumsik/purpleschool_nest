@@ -5,9 +5,6 @@ import { CollectionName } from '../../constants/constants';
 @Schema({ collection: CollectionName.ROOM, timestamps: true, versionKey: false })
 export class Room extends Document {
 	@Prop()
-	id: number;
-
-	@Prop()
 	type: string;
 
 	@Prop()

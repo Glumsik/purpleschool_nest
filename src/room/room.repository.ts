@@ -3,7 +3,6 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Room } from './model/room.model';
 import { Model } from 'mongoose';
 import { RoomQuery } from './query/room.query';
-import { RoomDto } from './dto/room.dto';
 
 @Injectable()
 export class RoomRepository {
@@ -26,12 +25,12 @@ export class RoomRepository {
 			.sort({ id: 1 });
 	}
 
-	async getById(id: number): Promise<Room> {
-		return this.roomModel.findOne({ id, deleted: { $exists: false } });
+	async getById(_id: string): Promise<Room | null> {
+		return this.roomModel.findById({ _id, deleted: { $exists: false } });
 	}
 
-	async update(id: number, data: Partial<Room>): Promise<Room> {
-		return this.roomModel.findOneAndUpdate({ id }, data, { new: true });
+	async update(_id: string, data: Partial<Room>): Promise<Room | null> {
+		return this.roomModel.findOneAndUpdate({ _id }, data, { new: true });
 	}
 
 	async create(data: Partial<Room>): Promise<Room> {
@@ -39,7 +38,7 @@ export class RoomRepository {
 		return newRoom.save();
 	}
 
-	async delete(id: number) {
-		return this.roomModel.findOneAndUpdate({ id }, { deleted: true }, { new: true });
+	async delete(_id: string) {
+		return this.roomModel.findOneAndUpdate({ _id }, { deleted: true }, { new: true });
 	}
 }

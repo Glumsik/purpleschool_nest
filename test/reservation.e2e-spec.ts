@@ -19,8 +19,8 @@ const testReservation: ReservationDto = {
 
 describe('AppController e2e', () => {
 	let app: INestApplication;
-	let roomId;
-	let reservationId;
+	let roomId: number;
+	let reservationId: number;
 
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
@@ -37,8 +37,8 @@ describe('AppController e2e', () => {
 			.send(testRoom)
 			.expect(201)
 			.then(({ body }: request.Response) => {
-				roomId = body.id;
-				testReservation.roomId = body.id;
+				roomId = body._id;
+				testReservation.roomId = body._id;
 				expect(body.type).toBe('one-room');
 				expect(body.view).toBe('city');
 				expect(roomId).toBeDefined();
@@ -50,7 +50,7 @@ describe('AppController e2e', () => {
 			.get(`/room/${roomId}`)
 			.expect(200)
 			.then(({ body }: request.Response) => {
-				expect(body.id).toBe(roomId);
+				expect(body._id).toBe(roomId);
 				expect(body.type).toBe('one-room');
 				expect(body.view).toBe('city');
 			});
@@ -81,7 +81,7 @@ describe('AppController e2e', () => {
 			.send(testReservation)
 			.expect(201)
 			.then(({ body }: request.Response) => {
-				reservationId = body.id;
+				reservationId = body._id;
 				expect(body.startDate).toBeDefined();
 				expect(body.endDate).toBeDefined();
 				expect(reservationId).toBeDefined();
@@ -93,7 +93,7 @@ describe('AppController e2e', () => {
 			.get(`/reservation/${reservationId}`)
 			.expect(200)
 			.then(({ body }: request.Response) => {
-				expect(body.id).toBe(reservationId);
+				expect(body._id).toBe(reservationId);
 			});
 	});
 
