@@ -1,9 +1,11 @@
-import { IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class RoomDto {
-	@IsString()
+	@IsString({ message: 'Значение type должно быть строкой' })
+	@IsNotEmpty({ message: 'Поле type не может быть пустым' })
 	type: string;
 
-	@IsString()
+	@IsString({ message: 'Значение view должно быть строкой' })
+	@IsNotEmpty({ message: 'Поле view не может быть пустым' })
 	view: string;
 }

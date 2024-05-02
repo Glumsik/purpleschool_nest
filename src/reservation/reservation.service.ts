@@ -3,12 +3,13 @@ import { ReservationDto } from './dto/reservation.dto';
 import { ReservationRepository } from './reservation.repository';
 import { Reservation } from './model/reservation.model';
 import { MessageReply } from '../constants/constants';
+import { ObjectId } from 'mongodb';
 
 @Injectable()
 export class ReservationService {
 	constructor(private readonly reservationRepository: ReservationRepository) {}
 
-	async getById(id: string): Promise<Reservation | null> {
+	async getById(id: ObjectId): Promise<Reservation | null> {
 		return this.reservationRepository.getById(id);
 	}
 
@@ -25,7 +26,7 @@ export class ReservationService {
 		return this.reservationRepository.create(data);
 	}
 
-	async update(id: string, data: ReservationDto): Promise<Reservation | null> {
+	async update(id: ObjectId, data: ReservationDto): Promise<Reservation | null> {
 		const { startDate, endDate } = data;
 
 		if (startDate > endDate)
@@ -38,7 +39,7 @@ export class ReservationService {
 		return this.reservationRepository.update(id, data);
 	}
 
-	async delete(id: string): Promise<Reservation | null> {
+	async delete(id: ObjectId): Promise<Reservation | null> {
 		return this.reservationRepository.delete(id);
 	}
 }

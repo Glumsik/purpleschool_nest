@@ -1,22 +1,18 @@
-import { IsDate, IsNumber } from 'class-validator';
+import { IsDate, IsMongoId, IsNotEmpty } from 'class-validator';
 import { Transform } from 'class-transformer';
+import { ObjectId } from 'mongodb';
+import { transformToDate } from '../../utils/helpers';
 
 export class ReservationDto {
-	@Transform(({ value }) => {
-		return new Date(value);
-	})
+	@Transform(transformToDate)
 	@IsDate()
 	startDate: Date;
 
-	@Transform(({ value }) => {
-		return new Date(value);
-	})
+	@Transform(transformToDate)
 	@IsDate()
 	endDate: Date;
 
-	@Transform(({ value }) => {
-		return Number(value);
-	})
-	@IsNumber()
-	roomId: number;
+	@IsMongoId({ message: 'Значение roomId должно быть формата ObjectId' })
+	@IsNotEmpty({ message: 'Значение roomId не может быть пустым' })
+	roomId: ObjectId;
 }

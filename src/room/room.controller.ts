@@ -3,6 +3,7 @@ import { RoomService } from './room.service';
 import { RoomQuery } from './query/room.query';
 import { RoomDto } from './dto/room.dto';
 import { Room } from './model/room.model';
+import { ObjectId } from 'mongodb';
 
 @Controller('room')
 export class RoomController {
@@ -14,7 +15,7 @@ export class RoomController {
 	}
 
 	@Get(':id')
-	async getById(@Param('id') id: string): Promise<Room> {
+	async getById(@Param('id') id: ObjectId): Promise<Room> {
 		const room = await this.roomService.getById(id);
 
 		if (!room) throw new Error(`Room ID: ${id} not found`);
@@ -28,7 +29,7 @@ export class RoomController {
 	}
 
 	@Put(':id')
-	async update(@Param('id') id: string, @Body() dto: RoomDto): Promise<Room> {
+	async update(@Param('id') id: ObjectId, @Body() dto: RoomDto): Promise<Room> {
 		const room = await this.roomService.update(id, dto);
 
 		if (!room) throw new Error(`Room ID: ${id} not found`);
@@ -37,7 +38,7 @@ export class RoomController {
 	}
 
 	@Delete(':id')
-	async delete(@Param('id') id: string): Promise<Room> {
+	async delete(@Param('id') id: ObjectId): Promise<Room> {
 		const room = await this.roomService.delete(id);
 
 		if (!room) throw new Error(`Room ID: ${id} not found`);

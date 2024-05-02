@@ -3,6 +3,7 @@ import { Room } from './model/room.model';
 import { RoomRepository } from './room.repository';
 import { RoomQuery } from './query/room.query';
 import { RoomDto } from './dto/room.dto';
+import { ObjectId } from 'mongodb';
 
 @Injectable()
 export class RoomService {
@@ -12,7 +13,7 @@ export class RoomService {
 		return this.roomRepository.getList(query);
 	}
 
-	async getById(id: string): Promise<Room | null> {
+	async getById(id: ObjectId): Promise<Room | null> {
 		return this.roomRepository.getById(id);
 	}
 
@@ -20,11 +21,11 @@ export class RoomService {
 		return this.roomRepository.create(data);
 	}
 
-	async update(id: string, data: RoomDto): Promise<Room | null> {
+	async update(id: ObjectId, data: RoomDto): Promise<Room | null> {
 		return this.roomRepository.update(id, data);
 	}
 
-	async delete(id: string): Promise<Room | null> {
+	async delete(id: ObjectId): Promise<Room | null> {
 		return this.roomRepository.delete(id);
 	}
 }

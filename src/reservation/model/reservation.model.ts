@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { ObjectId } from 'mongodb';
 import { CollectionName } from '../../constants/constants';
 
 @Schema({ collection: CollectionName.SCHEDULE, timestamps: true, versionKey: false })
@@ -11,7 +12,7 @@ export class Reservation extends Document {
 	endDate: Date;
 
 	@Prop()
-	roomId: number;
+	roomId: ObjectId;
 
 	@Prop()
 	deleted?: boolean;

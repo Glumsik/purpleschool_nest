@@ -1,10 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { AppModule } from '../src/app.module';
 import * as request from 'supertest';
 import { RoomDto } from '../src/room/dto/room.dto';
 import { disconnect } from 'mongoose';
 import { ReservationDto } from '../src/reservation/dto/reservation.dto';
+import { ObjectId } from 'mongodb';
 
 const testRoom: RoomDto = {
 	type: 'one-room',
@@ -14,7 +15,7 @@ const testRoom: RoomDto = {
 const testReservation: ReservationDto = {
 	startDate: new Date('2024-01-01'),
 	endDate: new Date('2024-01-09'),
-	roomId: 0,
+	roomId: new ObjectId(),
 };
 
 describe('AppController e2e', () => {
@@ -28,6 +29,7 @@ describe('AppController e2e', () => {
 		}).compile();
 
 		app = module.createNestApplication();
+		app.useGlobalPipes(new ValidationPipe({ transform: true }));
 		await app.init();
 	});
 
@@ -45,6 +47,16 @@ describe('AppController e2e', () => {
 			});
 	});
 
+	it('create room ERROR', async () => {
+		return request(app.getHttpServer())
+			.post('/room/create')
+			.send({ ...testRoom, view: 123 })
+			.expect(400)
+			.then(({ body }: request.Response) => {
+				console.log(body);
+			});
+	});
+
 	it('get room', async () => {
 		return request(app.getHttpServer())
 			.get(`/room/${roomId}`)
@@ -59,10 +71,20 @@ describe('AppController e2e', () => {
 	it('update room', async () => {
 		return request(app.getHttpServer())
 			.put(`/room/${roomId}`)
-			.send({ view: 'mountains' })
+			.send({ view: 'mountains', type: 'two-room' })
 			.expect(200)
 			.then(({ body }: request.Response) => {
 				expect(body.view).toBe('mountains');
+			});
+	});
+
+	it('update room ERROR', async () => {
+		return request(app.getHttpServer())
+			.put(`/room/${roomId}`)
+			.send({ view: 'mountains' })
+			.expect(400)
+			.then(({ body }: request.Response) => {
+				console.log(body);
 			});
 	});
 
@@ -85,6 +107,16 @@ describe('AppController e2e', () => {
 				expect(body.startDate).toBeDefined();
 				expect(body.endDate).toBeDefined();
 				expect(reservationId).toBeDefined();
+			});
+	});
+
+	it('create reservation ERROR', async () => {
+		return request(app.getHttpServer())
+			.post('/reservation/create')
+			.send({ ...testReservation, roomId: 123 })
+			.expect(400)
+			.then(({ body }: request.Response) => {
+				console.log(body);
 			});
 	});
 

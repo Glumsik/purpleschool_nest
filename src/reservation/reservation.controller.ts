@@ -2,13 +2,14 @@ import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
 import { ReservationService } from './reservation.service';
 import { ReservationDto } from './dto/reservation.dto';
 import { Reservation } from './model/reservation.model';
+import { ObjectId } from 'mongodb';
 
 @Controller('reservation')
 export class ReservationController {
 	constructor(private readonly reservationService: ReservationService) {}
 
 	@Get(':id')
-	async getById(@Param('id') id: string): Promise<Reservation> {
+	async getById(@Param('id') id: ObjectId): Promise<Reservation> {
 		const reservation = await this.reservationService.getById(id);
 
 		if (!reservation) throw new Error(`Reservation ID: ${id} not found`);
@@ -22,7 +23,7 @@ export class ReservationController {
 	}
 
 	@Put(':id')
-	async update(@Param('id') id: string, @Body() dto: ReservationDto): Promise<Reservation> {
+	async update(@Param('id') id: ObjectId, @Body() dto: ReservationDto): Promise<Reservation> {
 		const reservation = await this.reservationService.update(id, dto);
 
 		if (!reservation) throw new Error(`Reservation ID: ${id} not found`);
@@ -31,7 +32,7 @@ export class ReservationController {
 	}
 
 	@Delete(':id')
-	async delete(@Param('id') id: string): Promise<Reservation> {
+	async delete(@Param('id') id: ObjectId): Promise<Reservation> {
 		const reservation = await this.reservationService.delete(id);
 
 		if (!reservation) throw new Error(`Reservation ID: ${id} not found`);
