@@ -1,0 +1,16 @@
+version: '1'
+services:
+  mongo:
+    image: mongo
+    container_name: mongo
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${DB_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${DB_PASSWORD}
+    ports:
+      - "127.0.0.1:${DB_PORT}:27017"
+    volumes:
+      - ./mongo-data:/data/db
+    command: --wiredTigerCacheSizeGB 1
