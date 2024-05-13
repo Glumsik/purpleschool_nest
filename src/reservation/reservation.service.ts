@@ -15,6 +15,7 @@ export class ReservationService {
 
 	async create(data: ReservationDto): Promise<Reservation> {
 		const { startDate, endDate } = data;
+		//TODO спросить про async create({ startDate, endDate }: ReservationDto): Promise
 
 		if (startDate > endDate)
 			throw new HttpException(MessageReply.INVALID_DATE, HttpStatus.BAD_REQUEST);
