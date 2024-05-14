@@ -1,9 +1,14 @@
-import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ObjectId } from 'mongodb';
 import { User } from './model/user.model';
+import { JwtAuthGuard } from '../auth/guards/jwt.guard';
+import { UserId } from '../utils/decorators/userId.decorator';
+import { Role } from '../constants/constants';
+import { Roles } from '../utils/decorators/role.decorator';
+import { RolesGuard } from '../auth/guards/role.guard';
 
 @Controller('user')
 export class UserController {
@@ -15,24 +20,28 @@ export class UserController {
 	}
 
 	@Get(':id')
-	async findById(@Param('id') id: ObjectId): Promise<User> {
-		const user = await this.userService.findById(id);
+	@UseGuards(JwtAuthGuard)
+	async findById(@UserId() userId: ObjectId): Promise<User> {
+		const user = await this.userService.findById(userId);
 
-		if (!user) throw new Error(`User ID: ${id} not found`);
+		if (!user) throw new Error(`User ID: ${userId} not found`);
 
 		return user;
 	}
 
-	@Put(':id')
-	async update(@Param('id') id: ObjectId, @Body() updateUserDto: UpdateUserDto): Promise<User> {
-		const user = await this.userService.update(id, updateUserDto);
+	@Put()
+	@UseGuards(JwtAuthGuard)
+	async update(@UserId() userId: ObjectId, @Body() updateUserDto: UpdateUserDto): Promise<User> {
+		const user = await this.userService.update(userId, updateUserDto);
 
-		if (!user) throw new Error(`User ID: ${id} not found`);
+		if (!user) throw new Error(`User ID: ${userId} not found`);
 
 		return user;
 	}
 
 	@Delete(':id')
+	@UseGuards(JwtAuthGuard, RolesGuard)
+	@Roles(Role.ADMIN)
 	async delete(@Param('id') id: ObjectId): Promise<User> {
 		const user = await this.userService.delete(id);
 

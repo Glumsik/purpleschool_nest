@@ -9,11 +9,11 @@ import { ObjectId } from 'mongodb';
 export class ReservationService {
 	constructor(private readonly reservationRepository: ReservationRepository) {}
 
-	async getById(id: ObjectId): Promise<Reservation | null> {
-		return this.reservationRepository.getById(id);
+	async getReservations(userId: ObjectId): Promise<Reservation[] | null> {
+		return this.reservationRepository.getByUserId(userId);
 	}
 
-	async create(data: ReservationDto): Promise<Reservation> {
+	async create(data: ReservationDto, userId: ObjectId): Promise<Reservation> {
 		const { startDate, endDate } = data;
 		//TODO спросить про async create({ startDate, endDate }: ReservationDto): Promise
 
@@ -24,7 +24,7 @@ export class ReservationService {
 
 		if (isBusy) throw new HttpException(MessageReply.BUSY, HttpStatus.CONFLICT);
 
-		return this.reservationRepository.create(data);
+		return this.reservationRepository.create({ ...data, userId });
 	}
 
 	async update(id: ObjectId, data: ReservationDto): Promise<Reservation | null> {

@@ -8,17 +8,17 @@ import { Reservation } from './model/reservation.model';
 export class ReservationRepository {
 	constructor(
 		@InjectModel(Reservation.name)
-		private readonly scheduleModel: Model<Reservation>,
+		private readonly reservationModel: Model<Reservation>,
 	) {}
 
-	async getById(_id: ObjectId): Promise<Reservation | null> {
-		return this.scheduleModel.findById({ _id, deleted: { $exists: false } });
+	async getByUserId(userId: ObjectId): Promise<Reservation[] | null> {
+		return this.reservationModel.find({ userId, deleted: { $exists: false } });
 	}
 
 	async checkReservationRoom(data: Partial<Reservation>): Promise<Reservation | null> {
 		const { roomId, startDate: newStartDate, endDate: newEndDate } = data;
 
-		return this.scheduleModel.findOne({
+		return this.reservationModel.findOne({
 			roomId,
 			startDate: { $lte: newEndDate },
 			endDate: { $gte: newStartDate },
@@ -27,7 +27,7 @@ export class ReservationRepository {
 	}
 
 	async update(_id: ObjectId, data: Partial<Reservation>): Promise<Reservation | null> {
-		return this.scheduleModel.findOneAndUpdate(
+		return this.reservationModel.findOneAndUpdate(
 			{ _id },
 			{ ...data, $unset: { deleted: 1 } },
 			{ new: true },
@@ -35,11 +35,11 @@ export class ReservationRepository {
 	}
 
 	async create(data: Partial<Reservation>): Promise<Reservation> {
-		const schedule = new this.scheduleModel(data);
+		const schedule = new this.reservationModel(data);
 		return schedule.save();
 	}
 
 	async delete(_id: ObjectId): Promise<Reservation | null> {
-		return this.scheduleModel.findOneAndUpdate({ _id }, { deleted: true }, { new: true });
+		return this.reservationModel.findOneAndUpdate({ _id }, { deleted: true }, { new: true });
 	}
 }

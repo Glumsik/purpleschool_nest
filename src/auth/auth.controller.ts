@@ -8,8 +8,8 @@ export class AuthController {
 
 	@Post('login')
 	async login(@Body() authDto: AuthDto): Promise<{ access_token: string }> {
-		const { email } = await this.authService.validateUser(authDto);
+		const payload = await this.authService.validateUser(authDto);
 
-		return this.authService.login(email);
+		return this.authService.login(payload);
 	}
 }
