@@ -11,8 +11,8 @@ export class ReservationRepository {
 		private readonly reservationModel: Model<Reservation>,
 	) {}
 
-	async getByUserId(userId: ObjectId): Promise<Reservation[] | null> {
-		return this.reservationModel.find({ userId, deleted: { $exists: false } });
+	async getById(_id: ObjectId): Promise<Reservation | null> {
+		return this.reservationModel.findById({ _id, deleted: { $exists: false } });
 	}
 
 	async checkReservationRoom(data: Partial<Reservation>): Promise<Reservation | null> {

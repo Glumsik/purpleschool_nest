@@ -12,10 +12,10 @@ export class ReservationController {
 
 	@Get(':id')
 	@UseGuards(JwtAuthGuard)
-	async getById(@UserId() userId: ObjectId): Promise<Reservation[]> {
-		const reservations = await this.reservationService.getReservations(userId);
+	async getById(@Param('id') id: ObjectId): Promise<Reservation> {
+		const reservations = await this.reservationService.getReservation(id);
 
-		if (!reservations?.length) throw new Error(`Reservations not found`);
+		if (!reservations) throw new Error(`Reservations ID: ${id} not found`);
 
 		return reservations;
 	}

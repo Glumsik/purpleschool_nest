@@ -9,8 +9,8 @@ import { ObjectId } from 'mongodb';
 export class ReservationService {
 	constructor(private readonly reservationRepository: ReservationRepository) {}
 
-	async getReservations(userId: ObjectId): Promise<Reservation[] | null> {
-		return this.reservationRepository.getByUserId(userId);
+	async getReservation(id: ObjectId): Promise<Reservation | null> {
+		return this.reservationRepository.getById(id);
 	}
 
 	async create(data: ReservationDto, userId: ObjectId): Promise<Reservation> {
