@@ -8,6 +8,7 @@ import { getUri } from './utils/config/mongo.config';
 import { UserModule } from './user/user.module';
 import { RolesGuard } from './auth/guards/role.guard';
 import { AuthModule } from './auth/auth.module';
+import { StatisticModule } from './statistic/statistic.module';
 
 const { mongoDatabase, mongoDbUrl } = process.env;
 
@@ -22,6 +23,7 @@ const dbName = mongoDatabase || 'hotelDB';
 		RoomModule,
 		UserModule,
 		AuthModule,
+		StatisticModule,
 	],
 	controllers: [],
 	providers: [],

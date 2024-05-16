@@ -1,4 +1,5 @@
 import { TransformFnParams } from 'class-transformer';
+import { ObjectId } from 'mongodb';
 
 export const transformToBoolean = ({ value }: TransformFnParams): boolean => {
 	if (typeof value === 'boolean') return value;
@@ -13,4 +14,8 @@ export const transformToNumber = ({ value }: TransformFnParams): number => {
 
 export const transformToDate = ({ value }: TransformFnParams): Date => {
 	return new Date(value);
+};
+
+export const transformToObjectId = ({ value }: TransformFnParams): ObjectId => {
+	return new ObjectId(value);
 };

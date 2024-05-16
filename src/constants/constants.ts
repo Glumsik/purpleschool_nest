@@ -24,4 +24,16 @@ enum USER_STATUS {
 	INVALID_PASSWORD = `Invalid password`,
 }
 
-export { DEFAULT_COUNT_LIMIT, DEFAULT_OFFSET, CollectionName, MessageReply, Role, USER_STATUS };
+enum STATISC {
+	MONTH_ERROR = 'Invalid month name',
+}
+
+export {
+	DEFAULT_COUNT_LIMIT,
+	DEFAULT_OFFSET,
+	CollectionName,
+	MessageReply,
+	Role,
+	USER_STATUS,
+	STATISC,
+};

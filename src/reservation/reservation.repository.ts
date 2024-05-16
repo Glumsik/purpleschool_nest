@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, PipelineStage } from 'mongoose';
 import { ObjectId } from 'mongodb';
 import { Reservation } from './model/reservation.model';
 
@@ -41,5 +41,9 @@ export class ReservationRepository {
 
 	async delete(_id: ObjectId): Promise<Reservation | null> {
 		return this.reservationModel.findOneAndUpdate({ _id }, { deleted: true }, { new: true });
+	}
+
+	async aggregate(query: PipelineStage[]): Promise<any> {
+		return this.reservationModel.aggregate(query).exec();
 	}
 }
