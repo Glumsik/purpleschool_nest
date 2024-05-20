@@ -14,7 +14,7 @@ jobs:
             with:
               registry: docker.pkg.github.com
               name: docker.pkg.github.com/Glumsik/purpleschool_nest/purpleschool_nest
-              username: ${{ secrets.actor }}
+              username: ${{ github.actor }}
               password: ${{ secrets.DOCKER_PASSWORD }}
               tags: 'develop'
 
