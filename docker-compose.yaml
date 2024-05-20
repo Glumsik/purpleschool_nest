@@ -16,11 +16,15 @@ services:
     command: --wiredTigerCacheSizeGB 1
   nest:
     image: ghcr.io/glumsik/purpleschool_nest/purpleschool_nest:develop
+#    image: purpleschool_nest:latest
+    build: .
+    container_name: nest
     restart: always
     env_file:
       - .env
     environment:
       - MONGO_HOST=mongo
+      - DB_PORT=27017
     ports:
       - "127.0.0.1:3000:3000"
     depends_on:
