@@ -14,3 +14,15 @@ services:
     volumes:
       - ./mongo-data:/data/db
     command: --wiredTigerCacheSizeGB 1
+  nest:
+    image: ghcr.io/glumsik/purpleschool_nest/purpleschool_nest:develop
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - MONGO_HOST=mongo
+    ports:
+      - "127.0.0.1:3000:3000"
+    depends_on:
+      - mongo
+
