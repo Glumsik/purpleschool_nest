@@ -4,7 +4,6 @@ import { UserRepository } from '../user/user.repository';
 import { USER_STATUS } from '../constants/constants';
 import { compare } from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
-import { ObjectId } from 'mongodb';
 import { User } from '../user/model/user.model';
 
 @Injectable()
