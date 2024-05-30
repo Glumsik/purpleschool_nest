@@ -16,6 +16,9 @@ export class Reservation extends Document {
 
 	@Prop()
 	deleted?: boolean;
+
+	@Prop()
+	userId: ObjectId;
 }
 
 export const ReservationModelSchema = SchemaFactory.createForClass(Reservation);
