@@ -1,10 +1,15 @@
-const { DB_USERNAME, DB_PASSWORD, DB_PORT, MONGO_HOST } = process.env;
+import { ConfigService } from '@nestjs/config';
 
-const mongoHost = MONGO_HOST || '127.0.0.1';
+export const getMongoConfig = async (
+	configService: ConfigService,
+): Promise<{ uri: string; dbName: string }> => {
+	const mongoHost = configService.get('MONGO_HOST') || '127.0.0.1';
+	const userDB = configService.get('DB_USERNAME') || 'purpleschool';
+	const passwordDB = configService.get('DB_PASSWORD') || 'purpleschool123';
+	const port = configService.get('DB_PORT') || 47018;
 
-const UserDB = DB_USERNAME || 'purpleschool';
-const PasswordDB = DB_PASSWORD || 'purpleschool123';
-const Port = DB_PORT || 47018;
-
-export const getUri = () =>
-	`mongodb://${UserDB}:${PasswordDB}@${mongoHost}:${Port}?directConnection=true`;
+	return {
+		uri: `mongodb://${userDB}:${passwordDB}@${mongoHost}:${port}?directConnection=true`,
+		dbName: configService.get('mongoDatabase') || 'hotelDB',
+	};
+};
