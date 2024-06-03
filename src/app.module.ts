@@ -7,6 +7,7 @@ import { getMongoConfig } from './utils/config/mongo.config';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { StatisticModule } from './statistic/statistic.module';
+import { FilesModule } from './files/files.module';
 
 @Module({
 	imports: [
@@ -21,6 +22,7 @@ import { StatisticModule } from './statistic/statistic.module';
 		UserModule,
 		AuthModule,
 		StatisticModule,
+		FilesModule,
 	],
 	controllers: [],
 	providers: [],

@@ -1,0 +1,21 @@
+name: Publish docker
+
+on:
+    push:
+        branches: [4-production]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v3
+          - name: Build the Docker image
+            uses: elgohr/Publish-Docker-Github-Action@v5
+            with:
+              registry: docker.pkg.github.com
+              name: docker.pkg.github.com/Glumsik/purpleschool_nest/purpleschool_nest
+              username: ${{ github.actor }}
+              password: ${{ secrets.DOCKER_PASSWORD }}
+              tags: 'develop'
+
+
