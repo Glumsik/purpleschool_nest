@@ -8,6 +8,7 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { StatisticModule } from './statistic/statistic.module';
 import { FilesModule } from './files/files.module';
+import { TelegramModule } from './telegram/telegram.module';
 
 @Module({
 	imports: [
@@ -23,6 +24,7 @@ import { FilesModule } from './files/files.module';
 		AuthModule,
 		StatisticModule,
 		FilesModule,
+		TelegramModule,
 	],
 	controllers: [],
 	providers: [],
